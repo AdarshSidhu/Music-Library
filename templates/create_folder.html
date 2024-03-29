@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+    <h2>Create Folder</h2>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+<br>
+    <button type="submit" class="btn btn-success" style="text-align: center;">Create</button>
+</form>
+
+{% endblock %}

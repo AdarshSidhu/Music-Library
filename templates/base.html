@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Spotify</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css'/>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="{% url 'home' %}">Spotify</a></h1>
+
+<nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a class="nav-link scrollto" href="#services">Tracks</a></li>
+                {% if user.is_authenticated and user.is_staff == False %}
+                <li><a href="{% url 'create_folder' %}">Create Folder</a></li>
+                <li><a href="{% url 'folder_list' %}">Folder</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% elif user.is_authenticated and user.is_staff == True %}
+                <li><a href="{% url 'addtrack' %}">Add Track</a></li>
+                <li><a href="{% url 'musiclist' %}">List Track</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+                {% endif %}
+                <li><a class="nav-link scrollto" href="#home">{{ request.user.username }}</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+    </div>
+</header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li>Spotify</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page">
+      <div class="container">
+        {% block content %}
+            {% endblock %}
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container py-4">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Mod-Spotify</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            Designed by Adarsh
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+<script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+<!-- Template Main JS File -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+
+</body>
+
+</html>

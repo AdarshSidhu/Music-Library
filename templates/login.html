@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+
+
+
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+
+            <h2>LOGIN</h2>
+
+        </div>
+    </section>
+
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+
+<br>
+    <button type="submit" class="btn btn-success" style="text-align: center;">Submit</button>
+</form>
+<br><br>
+<br>
+<br>
+<br>
+<br>
+<br><br><br><br>
+{% endblock %}

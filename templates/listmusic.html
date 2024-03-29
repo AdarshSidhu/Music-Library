@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+        <th>Music</th>
+        <th>Artist</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in list %}
+    <tr>
+      <td>{{ i.title }}</td>
+      <td>{{ i.artist }}</td>
+      <td><a href="{% url 'musicupdate' i.id %}">Update</a></td>
+      <td><a href="{% url 'musicdelete' i.id %}">Delete</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

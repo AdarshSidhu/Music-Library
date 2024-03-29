@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Folder Detail Section ======= -->
+    <section id="folder-detail" class="section-bg">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Folder Detail: {{ folder.name }}</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-group">
+                        {% for track in folder.tracks.all %}
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">{{ track.title }}</h5>
+                                    <p class="mb-0">by {{ track.artist }} | Genre: {{ track.genre }}</p>
+                                </div>
+                                <div>
+                                    <!-- Play button for the track -->
+                                    <audio controls>
+                                        <source src="{{ track.file_upload.url }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'add_music_to_folder' folder_id=folder.id %}" class="btn btn-primary">Add Music</a>
+            </div>
+
+        </div>
+    </section><!-- End Folder Detail Section -->
+
+</main><!-- End #main -->
+{% endblock %}

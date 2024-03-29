@@ -1,0 +1,35 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home</h1>
+    <ul>
+    {% for music in tracks %}
+        <li>
+            <strong>{{ music.title }}</strong> - {{ music.artist }}
+            <audio controls>
+                <source src="{{ music.file_upload.url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {% if user.is_authenticated %}
+                {% if music in user_favorites %}
+                    <form action="{% url 'remove_from_favorites' music.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Remove from Favorites</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'add_to_favorites' music.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Add to Favorites</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

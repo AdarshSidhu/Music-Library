@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Spotify</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel='stylesheet' type='text/css'/>
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css'/>
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+
+        <h1 class="logo"><a href="{% url 'home' %}">Spotify</a></h1>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a class="nav-link scrollto" href="#services">Tracks</a></li>
+                {% if user.is_authenticated and user.is_staff == False %}
+                <li><a href="{% url 'create_folder' %}">Create Folder</a></li>
+                <li><a href="{% url 'folder_list' %}">Folder</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% elif user.is_authenticated and user.is_staff == True %}
+                <li><a href="{% url 'addtrack' %}">Add Track</a></li>
+                <li><a href="{% url 'musiclist' %}">List Track</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+                {% endif %}
+                <li><a class="nav-link scrollto" href="#home">{{ request.user.username }}</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+    </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <h1>Music Library Website</h1>
+                <div><a href="#services" class="btn-get-started scrollto">Get Started</a></div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                <img src="{% static '/img/spotify.webp' %}" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>MUSIC</h2>
+                <p>Where words fail, music speaks, and in the language of love, it sings</p>
+            </div>
+
+            <div class="row">
+                {% for music in tracks %}
+                <div class="col-lg-6 col-md-8">
+                    <div class="icon-box">
+                        <div class="icon"><i class="bi bi-cash-stack" style="color: #ff689b;"></i></div>
+
+                        <h4 class="title"><a href="">{{ music.title }} &nbsp By {{ music.artist }}</a></h4>
+                        <h6 class="description">{{ music.genre }} </h6>
+                        <p class="description">
+                            <audio controls>
+                                <source src="{{ music.file_upload.url }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </p>
+                        {% if user.is_authenticated %}
+                        {% if music in user_favorites %}
+                        <form action="{% url 'remove_from_favorites' music.pk %}" method="post"
+                              style="display: flex; justify-content: flex-end;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+
+                        </form>
+                        {% else %}
+                        <form action="{% url 'add_to_favorites' music.pk %}" method="post"
+                              style="display: flex; justify-content: flex-end;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Add to Favorites</button>
+                        </form>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </section><!-- End Services Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container py-4">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Mod-Spotify</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            Designed by Adarsh
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+<script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+<!-- Template Main JS File -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+
+</body>
+
+</html>
